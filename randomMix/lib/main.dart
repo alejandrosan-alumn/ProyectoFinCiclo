@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:randommix/FiltrosPage.dart';
 import 'package:randommix/HomePage.dart';
 import 'package:randommix/RecetarioPage.dart';
 
@@ -36,14 +37,12 @@ class _MyHomePageState extends State<MyHomePage> {
   final Pantallas =[
     HomePage(),
     RecetarioPage(),
+    FiltrosPage(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Pantallas[indiceActual],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.red,
