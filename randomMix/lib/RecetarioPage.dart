@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
+import 'EditarReceta.dart';
+import 'ListadoRecetas.dart';
 
-class RecetarioPage extends StatefulWidget{
-  @override
-  State<RecetarioPage> createState() => _RecetarioPage();
-  
-}
-class _RecetarioPage extends State<RecetarioPage>{
-  @override
-  Widget build(BuildContext context) => Scaffold(
+class RecetarioPage extends StatelessWidget{
 
-      appBar: AppBar(
-        title: Text('Recetario personal'),
-      ),
-      body: Center(
-        child: Text('Recetario personal',
-        ),
-      )
-  );
+  @override
+  Widget build(BuildContext context){
+
+    return MaterialApp(
+      initialRoute: "/",
+      routes: {
+       "/":(context) => ListadoRecetas(),
+        "/editar":(context) => EditarReceta()
+      }
+    );
+  }
 }
