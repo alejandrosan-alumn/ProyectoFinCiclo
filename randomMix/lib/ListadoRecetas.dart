@@ -12,8 +12,8 @@ class ListadoRecetas extends StatelessWidget{
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: (){
-          Navigator.pushNamed(context, "/editar", arguments: Receta(id,nombreReceta,detalles=,ingredientes=,
-              almuerzo,cena,lacteos, vegano, favorito));
+          Navigator.pushNamed(context, "/editar", arguments: Receta(0,"","","",
+              false,false,false, false, false));
         },
       ),
       body: Container(

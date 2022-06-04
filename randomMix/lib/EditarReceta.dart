@@ -1,10 +1,14 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:randommix/Datos/Receta.dart';
 
-class EditarReceta extends StatelessWidget{
+class EditarReceta extends StatefulWidget {
 
+  @override
+  _EditarReceta createState() => _EditarReceta();
+
+}
+
+class _EditarReceta extends State<EditarReceta>{
   final _formKey = GlobalKey<FormState>();
   final nombreRecetaController = TextEditingController();
   final detallesRecetaController = TextEditingController();
@@ -22,6 +26,12 @@ class EditarReceta extends StatelessWidget{
     nombreRecetaController.text = receta.nombreReceta;
     detallesRecetaController.text = receta.detalles;
     ingredientesRecetaController.text = receta.ingredientes;
+    almuerzoController = receta.almuerzo;
+    //almuerzoController = true;
+    cenaController = receta.cena;
+    lacteosController = receta.lacteos;
+    veganoController = receta.vegano;
+    favoritoController = receta.favorito;
 
     return Scaffold(
       appBar: AppBar(
@@ -31,7 +41,7 @@ class EditarReceta extends StatelessWidget{
        child: Padding(
          child: Form(
            key: _formKey,
-           child: Column(
+           child: ListView(
              children: <Widget>[
                TextFormField(
                  controller: nombreRecetaController,
@@ -56,6 +66,9 @@ class EditarReceta extends StatelessWidget{
                      labelText: "detalles de la receta"
                  ),
                ),
+               SizedBox(
+                 height: 20,
+               ),
                TextFormField(
                  controller: ingredientesRecetaController,
                  validator: (value){
@@ -65,8 +78,52 @@ class EditarReceta extends StatelessWidget{
                      labelText: "ingredientes de la receta"
                  ),
                ),
-             ],
-           ),
+               SizedBox(
+                 height: 20,
+               ),
+               Text('Filtros de la receta', style: TextStyle(fontWeight: FontWeight.bold)),
+               SizedBox(
+                 height: 10,
+               ),
+               CheckboxListTile(
+                 controlAffinity: ListTileControlAffinity.leading,
+                 title: Text('Receta para almorzar'),
+                 value: almuerzoController,
+                 onChanged: (value) {
+                   setState(() => almuerzoController = value!);
+                 },
+               ),
+               CheckboxListTile(
+                 controlAffinity: ListTileControlAffinity.leading,
+                 title: Text('Receta para cenar'),
+                 value: cenaController,
+                 onChanged: (value) {
+                   setState(() => cenaController = value!);
+                 },
+               ),
+               CheckboxListTile(
+                 controlAffinity: ListTileControlAffinity.leading,
+                 title: Text('Receta para intolerantes'),
+                 value: lacteosController,
+                 onChanged: (value) {
+                   setState(() => lacteosController = value!);
+                 },
+               ),
+               CheckboxListTile(
+                 controlAffinity: ListTileControlAffinity.leading,
+                 title: Text('Receta apta para veganos'),
+                 value: veganoController,
+                 onChanged: (value) {
+                   setState(() => veganoController = value!);
+                 },
+               ),
+               ElevatedButton(
+                 onPressed: (){
+                 },
+                 child: Text("Guardar")
+               )
+             ]
+           )
          ),
          padding: EdgeInsets.all(15),
        )
