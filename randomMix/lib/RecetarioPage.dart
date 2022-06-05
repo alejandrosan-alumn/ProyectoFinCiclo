@@ -10,8 +10,7 @@ class RecetarioPage extends StatelessWidget{
     return MaterialApp(
       initialRoute: "/",
       routes: {
-       "/":(context) => ListadoRecetas(),
-        "/editar":(context) => EditarReceta()
+       "/":(context) => ListadoRecetas()
       }
     );
   }

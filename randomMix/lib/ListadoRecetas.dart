@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:randommix/Datos/Receta.dart';
+import 'package:randommix/EditarReceta.dart';
+import 'package:randommix/provider/RecetaProvider.dart';
 
 class ListadoRecetas extends StatelessWidget{
 
@@ -12,8 +14,9 @@ class ListadoRecetas extends StatelessWidget{
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: (){
-          Navigator.pushNamed(context, "/editar", arguments: Receta(0,"","","",
-              false,false,false, false, false));
+          var nuevaReceta = Receta("", "", "", false, false, false, false, false);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => EditarReceta(nuevaReceta, null, true)));
         },
       ),
       body: Container(
@@ -30,37 +33,68 @@ class Listado extends StatefulWidget {
 }
 
 class _Listado extends State<Listado> {
-  List<Receta> recetas = [];
+  var recetaProvider = RecetaProvider();
+
+  @override
+  void dispose(){
+    super.dispose();
+    recetaProvider.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: recetas.length,
-        itemBuilder: (context, i) =>
-            Dismissible(key: Key(i.toString()),
-              direction: DismissDirection.startToEnd,
-              background: Container(
-                  color: Colors.red,
-                  padding: EdgeInsets.only(left: 5),
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Icon(Icons.delete, color: Colors.white)
-                  )
-              ),
-              onDismissed: (direction) {
 
-              },
-              child: ListTile(
-                title: Text(recetas[i].nombreReceta),
-                trailing: MaterialButton(
-                    onPressed: () {
-                      Navigator.pushNamed(
-                          context, "/editar", arguments: recetas[i]);
-                    },
-                    child: Icon(Icons.edit)
-                ),
-              ),
-            )
+    return Scaffold(
+      body: FutureBuilder(
+        future: recetaProvider.InicializarBox(),
+        builder: (context, snapShot){
+          if(snapShot.connectionState == ConnectionState.done){
+            return (recetaProvider.box.length < 1) ? Container() : LeerRecetas(context);
+          }
+          return Container();
+        }
+      ),
     );
+  }
+
+  ListView LeerRecetas(BuildContext context){
+    var recetasMap = recetaProvider.LeerRecetas();
+    var clavesRecetas = recetasMap.keys;
+
+    return ListView.builder(
+      itemCount: recetasMap.length,
+      itemBuilder: (context, indiceRecetas){
+        var claveReceta = clavesRecetas.elementAt(indiceRecetas);
+        var receta = recetasMap[claveReceta];
+        return Container(
+          decoration: BoxDecoration(border: Border.all(color: Colors.black38)),
+          child: ListTile(
+            title: GestureDetector(
+              child: Text(
+                '${receta.nombreReceta}',
+                style: TextStyle(fontWeight: FontWeight.bold)
+              ),
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditarReceta(receta, indiceRecetas, false)));
+              }
+            ),
+            trailing: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: (){
+                EliminarReceta(indiceRecetas);
+                setState(() {});
+              },
+            )
+          )
+        );
+      }
+    );
+  }
+
+  void EliminarReceta(int indice){
+    recetaProvider.EliminarReceta(indice);
   }
 }

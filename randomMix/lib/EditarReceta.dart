@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:randommix/Datos/Receta.dart';
+import 'package:randommix/provider/RecetaProvider.dart';
 
 class EditarReceta extends StatefulWidget {
+
+  final receta;
+  final int? indiceReceta;
+  final bool editar;
+
+
+  EditarReceta(this.receta, this.indiceReceta, this.editar);
 
   @override
   _EditarReceta createState() => _EditarReceta();
@@ -9,125 +17,87 @@ class EditarReceta extends StatefulWidget {
 }
 
 class _EditarReceta extends State<EditarReceta>{
-  final _formKey = GlobalKey<FormState>();
-  final nombreRecetaController = TextEditingController();
-  final detallesRecetaController = TextEditingController();
-  final ingredientesRecetaController = TextEditingController();
-  bool almuerzoController = false;
-  bool cenaController = false;
-  bool lacteosController = false;
-  bool veganoController = false;
-  bool favoritoController = false;
+
+  var recetaProvider = RecetaProvider();
+
+  @override
+  void initState(){
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
 
-    Receta receta = ModalRoute.of(context)!.settings.arguments as Receta;
-    nombreRecetaController.text = receta.nombreReceta;
-    detallesRecetaController.text = receta.detalles;
-    ingredientesRecetaController.text = receta.ingredientes;
-    almuerzoController = receta.almuerzo;
-    //almuerzoController = true;
-    cenaController = receta.cena;
-    lacteosController = receta.lacteos;
-    veganoController = receta.vegano;
-    favoritoController = receta.favorito;
+    final _formKey = GlobalKey<FormState>();
+    recetaProvider.InicializarBox();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Datos receta")
+        title: widget.indiceReceta!=null ? Text('${widget.receta.nombreReceta}') : Text('Nueva receta')
       ),
-      body: Container(
-       child: Padding(
-         child: Form(
-           key: _formKey,
-           child: ListView(
-             children: <Widget>[
-               TextFormField(
-                 controller: nombreRecetaController,
-                 validator: (value){
-                   if(value == null)
-                     return "El nombre de la receta debe ser obligatorio";
-                   return null;
-                 },
-                 decoration: InputDecoration(
-                   labelText: "Nombre de la receta"
-                 ),
-               ),
-               SizedBox(
-                 height: 20,
-               ),
-               TextFormField(
-                 controller: detallesRecetaController,
-                 validator: (value){
-                   return null;
-                 },
-                 decoration: InputDecoration(
-                     labelText: "detalles de la receta"
-                 ),
-               ),
-               SizedBox(
-                 height: 20,
-               ),
-               TextFormField(
-                 controller: ingredientesRecetaController,
-                 validator: (value){
-                   return null;
-                 },
-                 decoration: InputDecoration(
-                     labelText: "ingredientes de la receta"
-                 ),
-               ),
-               SizedBox(
-                 height: 20,
-               ),
-               Text('Filtros de la receta', style: TextStyle(fontWeight: FontWeight.bold)),
-               SizedBox(
-                 height: 10,
-               ),
-               CheckboxListTile(
-                 controlAffinity: ListTileControlAffinity.leading,
-                 title: Text('Receta para almorzar'),
-                 value: almuerzoController,
-                 onChanged: (value) {
-                   setState(() => almuerzoController = value!);
-                 },
-               ),
-               CheckboxListTile(
-                 controlAffinity: ListTileControlAffinity.leading,
-                 title: Text('Receta para cenar'),
-                 value: cenaController,
-                 onChanged: (value) {
-                   setState(() => cenaController = value!);
-                 },
-               ),
-               CheckboxListTile(
-                 controlAffinity: ListTileControlAffinity.leading,
-                 title: Text('Receta para intolerantes'),
-                 value: lacteosController,
-                 onChanged: (value) {
-                   setState(() => lacteosController = value!);
-                 },
-               ),
-               CheckboxListTile(
-                 controlAffinity: ListTileControlAffinity.leading,
-                 title: Text('Receta apta para veganos'),
-                 value: veganoController,
-                 onChanged: (value) {
-                   setState(() => veganoController = value!);
-                 },
-               ),
-               ElevatedButton(
-                 onPressed: (){
-                 },
-                 child: Text("Guardar")
-               )
-             ]
-           )
-         ),
-         padding: EdgeInsets.all(15),
-       )
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          children: <Widget>[
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Nombre de la receta'),
+              initialValue: '${widget.receta.nombreReceta}',
+              onSaved: (nuevoNombre) => widget.receta.nombreReceta = nuevoNombre!,
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Descripción de la receta'),
+              initialValue: widget.receta.detalles,
+              onSaved: (nuevosDetalles) => widget.receta.detalles = nuevosDetalles!,
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'ingredientes de la receta'),
+              initialValue: widget.receta.ingredientes,
+              onSaved: (nuevosIngredientes) => widget.receta.ingredientes = nuevosIngredientes!,
+            ),
+            CheckboxListTile(
+              title: Text("Receta para almorzar"),
+              value: widget.receta.almuerzo,
+              onChanged: (cambioAlmuerzo) => widget.receta.almuerzo = cambioAlmuerzo!,
+              controlAffinity: ListTileControlAffinity.leading,
+            ),
+            CheckboxListTile(
+              title: Text("Receta para cenar"),
+              value: widget.receta.cena,
+              onChanged: (cambioCena) => widget.receta.cena = cambioCena!,
+              controlAffinity: ListTileControlAffinity.leading,
+            ),
+            CheckboxListTile(
+              title: Text("Receta para intolerantes"),
+              value: widget.receta.lacteos,
+              onChanged: (cambioLacteos) => widget.receta.lacteos = cambioLacteos!,
+              controlAffinity: ListTileControlAffinity.leading,
+            ),
+            CheckboxListTile(
+              title: Text("Receta para veganos"),
+              value: widget.receta.vegano,
+              onChanged: (cambioVegano) => widget.receta.vegano = cambioVegano!,
+              controlAffinity: ListTileControlAffinity.leading,
+            ),
+          ]
+        ),
+      ),
+      floatingActionButton: IconButton(
+        icon: Icon(Icons.save),
+        onPressed: (){
+          _formKey.currentState!.save();
+          (widget.editar) ? IntroducirReceta(widget.receta) : ActualizarReceta(widget.indiceReceta!, widget.receta);
+        }
       )
     );
+  }
+
+  IntroducirReceta(var receta) {
+    recetaProvider.NuevaReceta(receta);
+    Navigator.pushNamed(context, '/');
+  }
+
+  ActualizarReceta(int i, var receta) {
+    recetaProvider.ModificarReceta(i, receta);
+    Navigator.pushNamed(context, '/');
   }
 }

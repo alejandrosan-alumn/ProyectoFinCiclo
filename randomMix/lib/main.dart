@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:randommix/FiltrosPage.dart';
 import 'package:randommix/HomePage.dart';
 import 'package:randommix/RecetarioPage.dart';
+import 'package:randommix/Datos/Receta.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Hive.registerAdapter(RecetaAdapter());
   runApp(const MyApp());
 }
 
