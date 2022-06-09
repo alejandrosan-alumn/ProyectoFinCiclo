@@ -1,6 +1,8 @@
 import 'package:path_provider/path_provider.dart';
 import 'package:hive/hive.dart';
 
+import '../Datos/Receta.dart';
+
 class RecetaProvider{
 
   late Box box;
