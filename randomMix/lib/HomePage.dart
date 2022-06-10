@@ -76,7 +76,14 @@ class _HomePage extends State<HomePage>{
             child: FlatButton(
             color: Colors.blueGrey,
             onPressed: (){
-
+              var recetasCena = recetaProvider.LeerRecetas().values.where((Receta) => Receta.cena == true);
+              Random random = new Random();
+              int? index = random.nextInt(recetasCena.length);
+              var recetaElegida = recetasCena.elementAt(index);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EditarReceta(recetaElegida, index, false)));
             },
             child: Text(
             "Cena",

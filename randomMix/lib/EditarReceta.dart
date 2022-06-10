@@ -56,26 +56,42 @@ class _EditarReceta extends State<EditarReceta>{
             ),
             CheckboxListTile(
               title: Text("Receta para almorzar"),
+
+              onChanged: (cambioAlmuerzo){
+                ManejarCambioAlmuerzo(cambioAlmuerzo);
+
+              },
               value: widget.receta.almuerzo,
-              onChanged: (cambioAlmuerzo) => widget.receta.almuerzo = cambioAlmuerzo!,
               controlAffinity: ListTileControlAffinity.leading,
             ),
             CheckboxListTile(
               title: Text("Receta para cenar"),
               value: widget.receta.cena,
-              onChanged: (cambioCena) => widget.receta.cena = cambioCena!,
+              onChanged: (cambioCena){
+                setState(() {
+                  widget.receta.cena = cambioCena!;
+                });
+              },
               controlAffinity: ListTileControlAffinity.leading,
             ),
             CheckboxListTile(
               title: Text("Receta para intolerantes"),
               value: widget.receta.lacteos,
-              onChanged: (cambioLacteos) => widget.receta.lacteos = cambioLacteos!,
+              onChanged: (cambioLacteos){
+                setState(() {
+                  widget.receta.lacteos = cambioLacteos!;
+                });
+              },
               controlAffinity: ListTileControlAffinity.leading,
             ),
             CheckboxListTile(
               title: Text("Receta para veganos"),
               value: widget.receta.vegano,
-              onChanged: (cambioVegano) => widget.receta.vegano = cambioVegano!,
+              onChanged: (cambioVegano){
+                setState(() {
+                  widget.receta.vegano = cambioVegano!;
+                });
+              },
               controlAffinity: ListTileControlAffinity.leading,
             ),
           ]
@@ -89,6 +105,12 @@ class _EditarReceta extends State<EditarReceta>{
         }
       )
     );
+  }
+
+  void ManejarCambioAlmuerzo(bool? valor){
+    setState(() {
+      widget.receta.almuerzo = valor!;
+    });
   }
 
   IntroducirReceta(var receta) {
