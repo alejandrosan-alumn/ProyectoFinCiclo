@@ -28,12 +28,25 @@ class _EditarReceta extends State<EditarReceta>{
   @override
   Widget build(BuildContext context) {
 
+    bool esFavortio = widget.receta.favorito;
     final _formKey = GlobalKey<FormState>();
     recetaProvider.InicializarBox();
 
     return Scaffold(
       appBar: AppBar(
-        title: widget.indiceReceta!=null ? Text('${widget.receta.nombreReceta}') : Text('Nueva receta')
+        title: widget.indiceReceta!=null ? Text('${widget.receta.nombreReceta}') : Text('Nueva receta'),
+        actions: <Widget>[
+          IconButton(
+           icon: Icon(Icons.favorite),
+            color: esFavortio==false ? Colors.white:Colors.amber,
+            onPressed: (){
+             esFavortio = !esFavortio;
+             setState(() {
+               widget.receta.favorito = esFavortio!;
+             });
+            },
+          )
+        ],
       ),
       body: Form(
         key: _formKey,
