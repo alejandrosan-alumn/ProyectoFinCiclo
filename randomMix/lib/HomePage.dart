@@ -12,6 +12,9 @@ class HomePage extends StatefulWidget{
 
 class _HomePage extends State<HomePage>{
   var recetaProvider = RecetaProvider();
+  bool lactosa = false;
+  bool vegano = false;
+  bool favorito = false;
 
   @override
   void dispose(){
@@ -56,6 +59,36 @@ class _HomePage extends State<HomePage>{
                 color: Colors.red,
               ),
             child: Text('Filtros para la búsqueda'),
+          ),
+          CheckboxListTile(
+            title: Text("Filtro para alérgicos a la lactosa"),
+            value: lactosa,
+            onChanged: (lactosaSi){
+              setState(() {
+                lactosa = lactosaSi!;
+              });
+            },
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            title: Text("Filtro para gente vegana"),
+            value: vegano,
+            onChanged: (veganoSi){
+              setState(() {
+                vegano = veganoSi!;
+              });
+            },
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+          CheckboxListTile(
+            title: Text("Filtro para mis recetas favoritas"),
+            value: favorito,
+            onChanged: (favoritoSi){
+              setState(() {
+                favorito = favoritoSi!;
+              });
+            },
+            controlAffinity: ListTileControlAffinity.leading,
           ),
         ],
       ),
