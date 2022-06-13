@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:randommix/FiltrosPage.dart';
 import 'package:randommix/HomePage.dart';
 import 'package:randommix/RecetarioPage.dart';
 import 'package:randommix/Datos/Receta.dart';
@@ -41,7 +40,6 @@ class _MyHomePageState extends State<MyHomePage> {
   final Pantallas =[
     HomePage(),
     RecetarioPage(),
-    FiltrosPage(),
   ];
 
   @override
@@ -65,11 +63,6 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.list),
             label: 'Recetario',
             backgroundColor: Colors.blue,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.filter),
-            label: 'Filtros',
-            backgroundColor: Colors.green,
           ),
         ],
       ),
