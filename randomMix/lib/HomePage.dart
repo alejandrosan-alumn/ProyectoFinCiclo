@@ -24,7 +24,16 @@ class _HomePage extends State<HomePage>{
 
     appBar: AppBar(
       title: Text('Selección aleatoria'),
+      leading: Builder(
+        builder: (context){
+          return IconButton(
+              icon: Icon(Icons.filter_alt),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          );
+        }
+      ),
     ),
+    drawer: MenuFiltro(context),
     body: FutureBuilder(
         future: recetaProvider.InicializarBox(),
         builder: (context, snapShot){
@@ -35,6 +44,23 @@ class _HomePage extends State<HomePage>{
         }
     ),
   );
+
+  Drawer MenuFiltro(BuildContext context){
+
+    return new Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.red,
+              ),
+            child: Text('Filtros para la búsqueda'),
+          ),
+        ],
+      ),
+    );
+  }
 
   Center BotonesSeleccion(BuildContext context){
 
