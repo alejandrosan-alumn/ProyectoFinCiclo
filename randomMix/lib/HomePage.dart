@@ -135,7 +135,7 @@ class _HomePage extends State<HomePage>{
             child: FlatButton(
             color: Colors.blueGrey,
             onPressed: (){
-              var recetasCena = recetaProvider.LeerRecetas().values.where((Receta) => Receta.cena == true);
+              var recetasCena = ElegirDatosCena();
               Random random = new Random();
               int? index = random.nextInt(recetasCena.length);
               var recetaElegida = recetasCena.elementAt(index);
@@ -168,6 +168,21 @@ class _HomePage extends State<HomePage>{
       datosElegidos = recetaProvider.LeerRecetas().values.where((Receta) => Receta.almuerzo == true && Receta.favorito == true);
     else
       datosElegidos = recetaProvider.LeerRecetas().values.where((Receta) => Receta.almuerzo == true);
+
+    return datosElegidos;
+  }
+
+  Iterable<dynamic> ElegirDatosCena(){
+
+    var datosElegidos;
+    if(lactosa)
+      datosElegidos = recetaProvider.LeerRecetas().values.where((Receta) => Receta.cena == true && Receta.lacteos == true);
+    else if(vegano)
+      datosElegidos = recetaProvider.LeerRecetas().values.where((Receta) => Receta.cena == true && Receta.vegano == true);
+    else if(favorito)
+      datosElegidos = recetaProvider.LeerRecetas().values.where((Receta) => Receta.cena == true && Receta.favorito == true);
+    else
+      datosElegidos = recetaProvider.LeerRecetas().values.where((Receta) => Receta.cena == true);
 
     return datosElegidos;
   }
