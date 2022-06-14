@@ -3,6 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:randommix/HomePage.dart';
 import 'package:randommix/RecetarioPage.dart';
 import 'package:randommix/Datos/Receta.dart';
+import 'package:randommix/FavoritosPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final Pantallas =[
     HomePage(),
     RecetarioPage(),
+    FavoritosPage(),
   ];
 
   @override
@@ -63,6 +65,11 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.list),
             label: 'Recetario',
             backgroundColor: Colors.blue,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Recetas favoritas',
+            backgroundColor: Colors.amber,
           ),
         ],
       ),
